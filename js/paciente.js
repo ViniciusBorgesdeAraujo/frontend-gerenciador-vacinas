@@ -11,7 +11,7 @@ function processarCarregamentoPagina() {
 async function carregarPacientes() {
   try {
     //faz a chamada na API
-    const response = await fetch("http://localhost:3000/paciente");
+    const response = await fetch("http://localhost:3000/paciente/consultar");
 
     //se a chamada retornar algum erro
     if (!response.ok) {
@@ -63,10 +63,9 @@ async function realizarCadastro(evento) {
       body: JSON.stringify(paciente),
     };
 
-    console.log(paciente);
-
+    //realiza a chamada da API
     const httpResponse = await fetch(
-      "http://localhost:3000/paciente",
+      "http://localhost:3000/paciente/inserir",
       conteudoHttp
     );
 
@@ -92,8 +91,8 @@ async function excluirUsuario(botao) {
   try {
     //obtem o id do usuario a ser excluido
     const id = botao.getAttribute("data-id");
-    console.log(id);
 
+    //constroi o objeto contendo o conteudo a ser inserido na requisicao http
     const conteudoHttp = {
       method: "DELETE",
     };
@@ -106,7 +105,6 @@ async function excluirUsuario(botao) {
 
     //determina o codigo de status baseado no http response
     const codigoStatus = determinarCodigoStatus(response);
-    console.log(response);
 
     //determina a mensagem a ser exibida para o usuario
     mensagem = retornarMensagem(codigoStatus);
@@ -116,13 +114,8 @@ async function excluirUsuario(botao) {
 
   //fecha o modal excluir
   fecharModalExcluir();
-
   //abre o modal de status para informar o resultado da exclusao, passando os parametros
-  //do titulo do modal e a mensagem que será exibida
   abrirModalMensagem("Exclusão Usuário", mensagem);
-
-  //atualiza os dados dos usuarios
-  carregarPacientes();
 }
 
 function adicionarUsuariosTabelaHtml(usuarios) {
@@ -189,6 +182,7 @@ function retornarMensagem(codigoStatus) {
       break;
   }
 
+  //fecha o modal excluir
   return mensagem;
 }
 
@@ -246,3 +240,4 @@ function fecharModalMensagem() {
   const modalExcluir = document.getElementById("modalMensagem");
   modalExcluir.style.display = "none";
 }
+

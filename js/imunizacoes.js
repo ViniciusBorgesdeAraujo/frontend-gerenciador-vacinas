@@ -1,78 +1,46 @@
 // imunizacao.js
 import { apiBase, utils } from "./api.js";
 
-const ENDPOINT = "imunizacoes"; // Endpoint para estatísticas de imunização
+const ENDPOINT = "imunizacoes/paciente/"; // Endpoint para consultar imunizações por paciente
 
 export const imunizacaoModule = {
-  async carregarEstatisticas(pacienteId) {
+  async carregarImunizacoes(pacienteId) {
     try {
-      console.log("Buscando estatísticas para o paciente ID:", pacienteId); // Teste
+      console.log("Buscando imunizações para o paciente ID:", pacienteId);
 
       // Filtra as imunizações pelo ID do paciente
-      const imunizacoes = await apiBase.listar(
-        `${ENDPOINT}?id_paciente=${pacienteId}`
-      );
-      console.log("Dados retornados:", imunizacoes); // Teste
+      const imunizacoes = await apiBase.listar(`${ENDPOINT}${pacienteId}`);
+      console.log("Dados retornados:", imunizacoes);
 
-      const estatisticas = {
-        vacinasAplicadas: imunizacoes.length,
-        vacinasProximoMes: this.calcularVacinasProximoMes(pacienteId),
-        vacinasAtrasadas: this.calcularVacinasAtrasadas(pacienteId),
-        vacinasIdade: this.calcularVacinasIdade(pacienteId),
-        vacinasNaoAplicaveis: this.calcularVacinasNaoAplicaveis(pacienteId),
-      };
-
-      console.log("Estatísticas calculadas:", estatisticas); // Teste
-      this.atualizarCards(estatisticas);
+      this.atualizarTabela(imunizacoes); // Atualiza a tabela com os dados das imunizações
     } catch (error) {
-      console.error("Erro ao carregar estatísticas:", error); // Teste
+      console.error("Erro ao carregar imunizações:", error);
       utils.mostrarMensagem("Erro", error.message);
     }
   },
 
-  calcularVacinasProximoMes(pacienteId) {
-    // Lógica para calcular vacinas aplicáveis no próximo mês
-    return 2; // Exemplo
-  },
-
-  calcularVacinasAtrasadas(pacienteId) {
-    // Lógica para calcular vacinas atrasadas
-    return 1; // Exemplo
-  },
-
-  calcularVacinasIdade(pacienteId) {
-    // Lógica para calcular vacinas acima de uma determinada idade
-    return 3; // Exemplo
-  },
-
-  calcularVacinasNaoAplicaveis(pacienteId) {
-    // Lógica para calcular vacinas não aplicáveis
-    return 0; // Exemplo
-  },
-
-  atualizarCards(estatisticas) {
-    const aplicadas = document.getElementById("vacinas-aplicadas");
-    const proximoMes = document.getElementById("vacinas-proximo-mes");
-    const atrasadas = document.getElementById("vacinas-atrasadas");
-    const idade = document.getElementById("vacinas-idade");
-    const naoAplicaveis = document.getElementById("vacinas-nao-aplicaveis");
-
-    console.log("Elementos dos cards:", {
-      aplicadas,
-      proximoMes,
-      atrasadas,
-      idade,
-      naoAplicaveis,
-    }); // Teste
-
-    if (aplicadas && proximoMes && atrasadas && idade && naoAplicaveis) {
-      aplicadas.textContent = estatisticas.vacinasAplicadas || 0;
-      proximoMes.textContent = estatisticas.vacinasProximoMes || 0;
-      atrasadas.textContent = estatisticas.vacinasAtrasadas || 0;
-      idade.textContent = estatisticas.vacinasIdade || 0;
-      naoAplicaveis.textContent = estatisticas.vacinasNaoAplicaveis || 0;
+  atualizarTabela(imunizacoes) {
+    const tabela = document.getElementById("tabela-imunizacoes");
+    if (tabela) {
+      tabela.innerHTML = imunizacoes
+        .map(
+          (imunizacao) => `
+          <tr>
+            <td>${imunizacao.id}</td>
+            <td>${imunizacao.nomePaciente}</td>
+            <td>${imunizacao.nomeVacina}</td>
+            <td>${imunizacao.nomeDose}</td>
+            <td>${imunizacao.dataAplicacao}</td>
+            <td>${imunizacao.fabricante}</td>
+            <td>${imunizacao.lote}</td>
+            <td>${imunizacao.localAplicacao}</td>
+            <td>${imunizacao.profissionalAplicador}</td>
+          </tr>
+        `
+        )
+        .join("");
     } else {
-      console.error("Um ou mais elementos dos cards não foram encontrados.");
+      console.error("Tabela de imunizações não encontrada.");
     }
   },
 };
@@ -83,10 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (searchBtn) {
     searchBtn.addEventListener("click", () => {
-      console.log("Botão de busca clicado!"); // Teste
+      console.log("Botão de busca clicado!");
       const pacienteId = document.getElementById("search-id").value;
       if (pacienteId) {
-        imunizacaoModule.carregarEstatisticas(pacienteId);
+        imunizacaoModule.carregarImunizacoes(pacienteId);
       } else {
         utils.mostrarMensagem("Erro", "Por favor, insira um ID de paciente.");
       }

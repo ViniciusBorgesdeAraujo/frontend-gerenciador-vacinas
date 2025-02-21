@@ -1,11 +1,11 @@
 import { apiBase, utils } from "./api.js";
 
-const ENDPOINT = "vacina";
+const ENDPOINT = "vacinas";
 
 export const vacinasModule = {
   async carregarVacinas() {
     try {
-      const vacinas = await apiBase.listar(ENDPOINT);
+      const vacinas = await apiBase.listar(ENDPOINT+"/consultar");
       this.renderizarTabela(vacinas);
     } catch (error) {
       utils.mostrarMensagem("Erro", error.message);
