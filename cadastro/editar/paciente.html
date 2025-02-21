@@ -34,7 +34,50 @@
     <div class="container mt-3">
       <form class="card p-4 shadow-sm">
         <input type="hidden" name="id" id="id" />
-        <div id="corpoFormulario"></div>
+        <div id="corpoFormulario">
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label"><b>Nome Completo</b></label>
+              <input
+                class="form-control"
+                type="text"
+                name="nome"
+                id="nome"
+                placeholder="Digite o nome completo"
+                required
+              />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label"><b>CPF</b></label>
+              <input
+                class="form-control"
+                type="text"
+                name="cpf"
+                id="cpf"
+                placeholder="000.000.000-00"
+                required
+              />
+            </div>
+            <div class="col-md-2">
+              <label class="form-label"><b>Sexo</b></label>
+              <select class="form-select" name="sexo" id="sexo" required>
+                <option value="">Selecione</option>
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label"><b>Data de Nascimento</b></label>
+              <input
+                class="form-control"
+                type="date"
+                name="date"
+                id="data_nascimento"
+                required
+              />
+            </div>
+
+        </div>
 
         <!-- Botão de Atualizar -->
         <div class="mt-3">
