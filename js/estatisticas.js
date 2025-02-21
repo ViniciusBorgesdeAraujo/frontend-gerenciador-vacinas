@@ -14,7 +14,7 @@ export const imunizacaoModule = {
       ]);
       
       // Buscar estatística de vacinas acima de determinada idade (exemplo: 12 meses)
-      const idadeReferencia = 36;
+      const idadeReferencia = 104;
       const vacinasIdade = await apiBase.listar(`estatisticas/imunizacoes/idade_maior/${idadeReferencia}`);
       
       // Construir objeto com os dados

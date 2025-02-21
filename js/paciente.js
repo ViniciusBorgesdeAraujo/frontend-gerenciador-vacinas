@@ -3,6 +3,11 @@ window.onload = processarCarregamentoPagina;
 
 //verifica se tem alguma mensagem para exibir para o usuario
 //e realiza o carregamento dos dados dos usuários a partir da API de consulta
+
+document.addEventListener("DOMContentLoaded", function () {
+  processarCarregamentoPagina();
+});
+
 function processarCarregamentoPagina() {
   carregarPacientes();
 }
@@ -43,42 +48,29 @@ async function carregarPacientes() {
 async function realizarCadastro(evento) {
   evento.preventDefault();
 
+  // Obtém os valores dos campos do formulário
   const nome = document.getElementById("nome").value;
   const cpf = document.getElementById("cpf").value;
   const sexo = document.getElementById("sexo").value;
+  alert(sexo);
   const data_nascimento = document.getElementById("data_nascimento").value;
 
-  const paciente = {
-    nome,
-    cpf,
-    sexo,
-    data_nascimento,
-  };
+  // Constrói a URL com os query parameters
 
   try {
-    //constroi o objeto contendo o conteudo a ser inserido na requisicao http
-    const conteudoHttp = {
+    // Realiza a chamada da API com os query parameters
+    const httpResponse = await fetch(`http://localhost:3000/paciente/inserir?nome=${nome}&cpf=${cpf}&sexo=${sexo}&data_nascimento=${data_nascimento}`, {
       method: "POST",
-      headers: { "Content-type": "application/json;" },
-      body: JSON.stringify(paciente),
-    };
+      headers: { "Content-type": "application/x-www-form-urlencoded" },
+    });
 
-    //realiza a chamada da API
-    const httpResponse = await fetch(
-      "http://localhost:3000/paciente/inserir",
-      conteudoHttp
-    );
-
+    // Verifica se a resposta da API foi bem-sucedida
     if (!httpResponse.ok) {
-      abrirModalMensagem(
-        "Cadastrar Usuário",
-        `Erro: ${httpResponse.statusText}`
-      );
+      alert("Erro ao cadastrar: " + httpResponse.status +", erro:"+ httpResponse.statusText);
+      return;
     }
-
-    alert("cadastrado com sucesso");
-
-    carregarPacientes();
+    // Exibe mensagem de sucesso e recarrega a lista de pacientes
+    alert("Cadastrado com sucesso");
   } catch (error) {
     alert("Erro ao cadastrar: " + error.message);
   }
@@ -99,7 +91,7 @@ async function excluirUsuario(botao) {
 
     //realiza a chamada da API
     const response = await fetch(
-      `http://localhost:3000/paciente/${id}`,
+      `http://localhost:3000/paciente/excluir/${id}`,
       conteudoHttp
     );
 
@@ -133,12 +125,13 @@ function adicionarUsuariosTabelaHtml(usuarios) {
 
     //monta o conteudo da linha
     linhaTabela.innerHTML = `
+    <td>${usuarios[i].id}</td>
     <td>${usuarios[i].nome}</td>
     <td>${usuarios[i].cpf}</td>
     <td>${usuarios[i].sexo}</td>
     <td>${usuarios[i].data_nascimento}</td>
     <td>
-      <a href="/frontend/cadastro/editar/paciente.html?id=${usuarios[i].id}">
+      <a href="../cadastro/editar/paciente.html?id=${usuarios[i].id}">
         <button class="main_btn">Editar</button>
       </a>
       <button class="main_btn_light" onclick="abrirModalExcluir('${usuarios[i].id}')">Excluir</button>
