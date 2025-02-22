@@ -1,9 +1,11 @@
 import { apiBase, utils } from "./api.js";
 
 export const imunizacaoModule = {
-  async carregarEstatisticas(pacienteId) {
+  async carregarEstatisticas(pacienteId,pacienteAge) {
     try {
       console.log("Buscando estatísticas para o paciente ID:", pacienteId);
+
+      
       
       // Buscar dados das estatísticas em paralelo
       const [vacinasAplicadas, vacinasProximoMes, vacinasAtrasadas, vacinasNaoAplicaveis] = await Promise.all([
@@ -14,8 +16,8 @@ export const imunizacaoModule = {
       ]);
       
       // Buscar estatística de vacinas acima de determinada idade (exemplo: 12 meses)
-      const idadeReferencia = 104;
-      const vacinasIdade = await apiBase.listar(`estatisticas/imunizacoes/idade_maior/${idadeReferencia}`);
+      const idadeReferencia = 3;
+      const vacinasIdade = await apiBase.listar(`estatisticas/imunizacoes/idade_maior/${ pacienteAge == '' ?  idadeReferencia : pacienteAge}`);
       
       // Construir objeto com os dados
       const estatisticas = {
@@ -49,11 +51,14 @@ document.addEventListener("DOMContentLoaded", () => {
   if (searchBtn) {
     searchBtn.addEventListener("click", () => {
       const pacienteId = document.getElementById("search-id").value;
+      const pacienteAge = document.getElementById("age-id").value;
+
       if (pacienteId) {
-        imunizacaoModule.carregarEstatisticas(pacienteId);
+        imunizacaoModule.carregarEstatisticas(pacienteId,pacienteAge);
       } else {
         utils.mostrarMensagem("Erro", "Por favor, insira um ID de paciente.");
       }
+      
     });
   }
 });

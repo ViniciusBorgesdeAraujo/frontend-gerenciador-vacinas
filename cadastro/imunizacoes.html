@@ -182,5 +182,88 @@
   </div>
 </div>
 
+<script>
+  // Função para abrir o modal de exclusão
+function abrirModalExcluir(id) {
+  const botaoConfirmarExcluir = document.getElementById("botaoConfirmarExcluir");
+  botaoConfirmarExcluir.setAttribute("data-id", id); // Passa o ID para o botão de confirmação
+
+  const modalExcluir = document.getElementById("modalExcluir");
+  modalExcluir.style.display = "block"; // Exibe o modal
+}
+
+// Função para fechar o modal de exclusão
+function fecharModalExcluir() {
+  const modalExcluir = document.getElementById("modalExcluir");
+  modalExcluir.style.display = "none"; // Oculta o modal
+}
+
+// Função para excluir a imunização
+async function excluirImunizacao(botao) {
+  let mensagem;
+
+  try {
+    // Obtém o ID da imunização a ser excluída
+    const id = botao.getAttribute("data-id");
+
+    // Realiza a chamada da API para excluir a imunização
+    const response = await fetch(`http://localhost:3000/imunizacao/excluir/${id}`, {
+      method: "DELETE",
+    });
+
+    // Verifica se a resposta da API foi bem-sucedida
+    if (!response.ok) {
+      const codigoStatus = determinarCodigoStatus(response);
+      mensagem = retornarMensagem(codigoStatus);
+    } else {
+      mensagem = "Imunização excluída com sucesso!";
+    }
+  } catch (error) {
+    mensagem = "Erro ao excluir imunização: " + error.message;
+  }
+
+  // Fecha o modal de exclusão
+  fecharModalExcluir();
+
+  location.reload()
+  
+  // Exibe o modal de mensagem com o resultado da exclusão
+  abrirModalMensagem("Exclusão de Imunização", mensagem);
+
+  // Recarrega a lista de imunizações após a exclusão
+  carregarImunizacoes();
+}
+
+// Função para carregar as imunizações
+async function carregarImunizacoes() {
+  try {
+    // Faz a chamada na API para buscar as imunizações
+    const response = await fetch("http://localhost:3000/imunizacao/consultar");
+
+    if (!response.ok) {
+      const codigoStatus = determinarCodigoStatus(response);
+      const mensagem = retornarMensagem(codigoStatus);
+      abrirModalMensagem("Consultar Imunizações", mensagem);
+      return;
+    }
+
+    // Converte os dados de JSON para objeto JavaScript
+    const imunizacoes = await response.json();
+
+    // Atualiza a tabela com os dados das imunizações
+    atualizarTabela(imunizacoes);
+  } catch (error) {
+    abrirModalMensagem("Consultar Imunizações", "Erro: " + error.message);
+  }
+}
+
+// Função para atualizar a tabela de imunizações
+
+
+// Carrega as imunizações ao carregar a página
+document.addEventListener("DOMContentLoaded", function () {
+  carregarImunizacoes();
+});
+</script>
   </body>
 </html>

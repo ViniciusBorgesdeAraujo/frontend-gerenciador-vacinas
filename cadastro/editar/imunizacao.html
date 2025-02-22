@@ -14,6 +14,7 @@
     />
   </head>
   <body>
+
     <div id="menu">
       <header class="header_area">
         <nav class="navbar navbar-expand-lg navbar-light">
@@ -73,10 +74,11 @@
 
     <div class="container mt-3">
       <form
-        method="post"
         onsubmit="alterarImunizacao(event)"
         class="card p-4 shadow"
+        id="form-editar-imunizacao"
       >
+      <input type="hidden" name="id" id="id" />
         <div id="corpoFormulario">
           <div class="row">
             <div class="col-md-3">
@@ -166,8 +168,59 @@
         </div>
       </form>
     </div>
-
     <script src="../../js/include.js"></script>
-    <script src="../../js/imunizacoes.js"></script>
+    
+    <script>
+      async function alterarImunizacao(event) {
+  
+  event.preventDefault();
+
+  // Obtém os valores dos campos do formulário
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get('id');
+
+  const idPaciente = document.getElementById("idPaciente").value;
+  const idDose = document.getElementById("idDose").value;
+  const dataAplicacao = document.getElementById("dataAplicacao").value;
+  const fabricante = document.getElementById("fabricante").value;
+  const lote = document.getElementById("lote").value;
+  const localAplicacao = document.getElementById("localAplicacao").value;
+  const profissionalAplicador = document.getElementById("profissionalAplicador").value;
+  
+
+  // Constrói o objeto de imunização
+  const imunizacao = {
+    idPaciente: parseInt(idPaciente),
+    idDose: parseInt(idDose),
+    dataAplicacao: dataAplicacao,
+    fabricante: fabricante,
+    lote: lote,
+    localAplicacao: localAplicacao,
+    profissionalAplicador: profissionalAplicador,
+  };
+
+  try {
+    // Realiza a chamada da API para atualizar a imunização
+    const httpResponse = await fetch(`http://localhost:3000/imunizacao/alterar/${id}`, {
+      method: "PUT",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(imunizacao),
+    });
+
+    // Verifica se a resposta da API foi bem-sucedida
+    if (!httpResponse.ok) {
+      alert("Erro ao atualizar: " + httpResponse.status + ", erro: " + httpResponse.statusText);
+      return;
+    }
+
+    // Exibe mensagem de sucesso e redireciona para a página de imunizações
+    alert("Imunização atualizada com sucesso!");
+    window.location.href = "../imunizacoes.html";
+  } catch (error) {
+    alert("Erro ao atualizar: " + error.message);
+  }
+}
+
+    </script>
   </body>
 </html>

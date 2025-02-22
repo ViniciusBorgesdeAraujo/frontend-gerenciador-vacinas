@@ -273,8 +273,7 @@ async function alterarImunizacao(event) {
   const lote = document.getElementById("lote").value;
   const localAplicacao = document.getElementById("localAplicacao").value;
   const profissionalAplicador = document.getElementById("profissionalAplicador").value;
-
-  alert(id);
+  
 
   // Constrói o objeto de imunização
   const imunizacao = {
@@ -312,4 +311,6 @@ async function alterarImunizacao(event) {
 
 
 
+
 window.imunizacaoModule = imunizacaoModule;
+
