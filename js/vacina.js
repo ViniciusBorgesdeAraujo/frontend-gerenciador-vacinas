@@ -94,15 +94,6 @@ export const vacinasModule = {
               <td>${vacina.descricao}</td>
               <td>${vacina.limite_aplicacao}</td>
               <td>${vacina.publico_alvo}</td>
-              <td>
-                  <a href="/frontend/cadastro/editar/vacina.html?id=${vacina.id}">
-                      <button class="main_btn">Editar</button>
-                  </a>
-                  <button class="main_btn_light" 
-                      onclick="vacinasModule.excluirVacina('${vacina.id}')">
-                      Excluir
-                  </button>
-              </td>
           </tr>
       `
       )

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Editar Cadastro do Paciente</title>
-
+    <title>Editar Paciente</title>
+    
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../../css/bootstrap.css" />
     <link rel="stylesheet" href="../../css/style.css" />
@@ -32,7 +32,7 @@
     </section>
 
     <div class="container mt-3">
-      <form class="card p-4 shadow-sm">
+      <form id="form-editar-paciente" class="card p-4 shadow-sm" onsubmit="alterarPaciente(event)">
         <input type="hidden" name="id" id="id" />
         <div id="corpoFormulario">
           <div class="row">
@@ -76,103 +76,19 @@
                 required
               />
             </div>
+          </div>
 
         </div>
 
         <!-- Botão de Atualizar -->
         <div class="mt-3">
-          <button type="button" class="main_btn" onClick="alterarUsuario()">
-            Atualizar
-          </button>
+          <button class="main_btn" type="submit">Atualizar</button>
         </div>
       </form>
     </div>
 
-    <!-- Scripts Externos -->
-    <script src="../js/include.js"></script>
-    <script src="../js/constantes.js"></script>
-    
-
-    <script>
-      (async function () {
-        await loadHtml(
-          "../../componentes/paciente.html",
-          "corpoFormulario"
-        );
-        carregarPaciente();
-      })();
-
-      async function carregarPaciente() {
-        const idUrl = obterParametroId();
-        const id = document.getElementById("id");
-        const nome = document.getElementById("nome");
-        const cpf = document.getElementById("cpf");
-        const sexo = document.getElementById("sexo");
-        const dataNascimento = document.getElementById("data_nascimento");
-
-        let response;
-        try {
-          response = await fetch(`http://localhost:3000/paciente/${idUrl}`);
-        } catch (error) {
-          window.location.href = `/cadastro/contato/contato.html?status=${statusOperacao.ERRO_GERAL}`;
-        }
-
-        if (httpResponseOK(response)) {
-          const user = await response.json();
-          id.value = user.id;
-          nome.value = user.nome;
-          cpf.value = user.cpf;
-          sexo.value = user.sexo;
-          dataNascimento.value = user.data_nascimento;
-        }
-      }
-
-      async function alterarUsuario() {
-        const id = document.getElementById("id").value;
-        const nome = document.getElementById("nome").value;
-        const cpf = document.getElementById("cpf").value;
-        const sexo = document.getElementById("sexo").value;
-        const data_nascimento =
-          document.getElementById("data_nascimento").value;
-
-        const pacienteAtualizado = {
-          nome,
-          cpf,
-          sexo,
-          data_nascimento,
-        };
-
-        try {
-          const response = await fetch(`http://localhost:3000/paciente/${id}`, {
-            method: "PUT",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify(pacienteAtualizado),
-          });
-
-          alert("Usuário alterado com sucesso!");
-        } catch (error) {
-          window.location.href = `/frontend/cadastro/paciente.html?status=${statusOperacao.ERRO_GERAL}`;
-        }
-      }
-
-      function httpResponseOK(response) {
-        if (!response.ok) {
-          window.location.href = `../cadastro/paciente.html?status=${statusOperacao.ENDPOINT_NAO_ENCONTRADO}`;
-          return false;
-        } else if (response.status == 204) {
-          window.location.href = `../cadastro/paciente.html?status=${statusOperacao.ID_NAO_ENCONTRADO}`;
-          return false;
-        }
-        return true;
-      }
-
-      function obterParametroId() {
-        const url = new URL(window.location.href);
-        const parametros = new URLSearchParams(url.search);
-        return parametros.get("id");
-      }
-    </script>
+    <script src="../../js/include.js"></script>
+    <script src="../../js/paciente.js"></script>
+  
   </body>
 </html>
-
-

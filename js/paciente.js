@@ -52,7 +52,6 @@ async function realizarCadastro(evento) {
   const nome = document.getElementById("nome").value;
   const cpf = document.getElementById("cpf").value;
   const sexo = document.getElementById("sexo").value;
-  alert(sexo);
   const data_nascimento = document.getElementById("data_nascimento").value;
 
   // Constrói a URL com os query parameters
@@ -234,3 +233,39 @@ function fecharModalMensagem() {
   modalExcluir.style.display = "none";
 }
 
+
+//realiza a atualização do usuário, executando a API no backend
+async function alterarPaciente(evento) {
+  evento.preventDefault();
+
+  // Obtém os valores dos campos do formulário
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get('id');
+
+  alert(id);
+  const nome = document.getElementById("nome").value;
+  const cpf = document.getElementById("cpf").value;
+  const sexo = document.getElementById("sexo").value;
+  const data_nascimento = document.getElementById("data_nascimento").value;
+
+  try {
+    // Realiza a chamada da API com os parâmetros
+    const httpResponse = await fetch(`http://localhost:3000/paciente/atualizar/${id}?nome=${nome}&cpf=${cpf}&sexo=${sexo}&data_nascimento=${data_nascimento}`, {
+      method: "PUT", // Método PUT
+      headers: { "Content-type": "application/x-www-form-urlencoded" },
+    });
+
+    // Verifica se a resposta da API foi bem-sucedida
+    if (!httpResponse.ok) {
+      alert("Erro ao atualizar: " + httpResponse.status + ", erro: " + httpResponse.statusText);
+      return;
+    }
+
+    // Exibe mensagem de sucesso e recarrega a lista de pacientes
+    alert("Atualizado com sucesso");
+    
+    window.location.href = "../paciente.html";
+  } catch (error) {
+    alert("Erro ao atualizar: " + error.message);
+  }
+}
