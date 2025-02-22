@@ -207,7 +207,7 @@ async function excluirImunizacao(botao) {
     const id = botao.getAttribute("data-id");
 
     // Realiza a chamada da API para excluir a imunização
-    const response = await fetch(`http://localhost:3000/imunizacao/excluir/${id}`, {
+    const response = await fetch(`http://ec2-3-147-64-107.us-east-2.compute.amazonaws.com:3000/imunizacao/excluir/${id}`, {
       method: "DELETE",
     });
 
@@ -238,7 +238,7 @@ async function excluirImunizacao(botao) {
 async function carregarImunizacoes() {
   try {
     // Faz a chamada na API para buscar as imunizações
-    const response = await fetch("http://localhost:3000/imunizacao/consultar");
+    const response = await fetch("http://ec2-3-147-64-107.us-east-2.compute.amazonaws.com:3000/imunizacao/consultar");
 
     if (!response.ok) {
       const codigoStatus = determinarCodigoStatus(response);

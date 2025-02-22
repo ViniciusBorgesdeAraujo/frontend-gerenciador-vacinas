@@ -201,7 +201,7 @@
 
   try {
     // Realiza a chamada da API para atualizar a imunização
-    const httpResponse = await fetch(`http://localhost:3000/imunizacao/alterar/${id}`, {
+    const httpResponse = await fetch(`http://ec2-3-147-64-107.us-east-2.compute.amazonaws.com:3000/imunizacao/alterar/${id}`, {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(imunizacao),

@@ -16,7 +16,7 @@ function processarCarregamentoPagina() {
 async function carregarPacientes() {
   try {
     //faz a chamada na API
-    const response = await fetch("http://localhost:3000/paciente/consultar");
+    const response = await fetch("http://ec2-3-147-64-107.us-east-2.compute.amazonaws.com:3000/paciente/consultar");
 
     //se a chamada retornar algum erro
     if (!response.ok) {
@@ -58,7 +58,7 @@ async function realizarCadastro(evento) {
 
   try {
     // Realiza a chamada da API com os query parameters
-    const httpResponse = await fetch(`http://localhost:3000/paciente/inserir?nome=${nome}&cpf=${cpf}&sexo=${sexo}&data_nascimento=${data_nascimento}`, {
+    const httpResponse = await fetch(`http://ec2-3-147-64-107.us-east-2.compute.amazonaws.com:3000/paciente/inserir?nome=${nome}&cpf=${cpf}&sexo=${sexo}&data_nascimento=${data_nascimento}`, {
       method: "POST",
       headers: { "Content-type": "application/x-www-form-urlencoded" },
     });
@@ -90,7 +90,7 @@ async function excluirUsuario(botao) {
 
     //realiza a chamada da API
     const response = await fetch(
-      `http://localhost:3000/paciente/excluir/${id}`,
+      `http://ec2-3-147-64-107.us-east-2.compute.amazonaws.com:3000/paciente/excluir/${id}`,
       conteudoHttp
     );
 
@@ -250,7 +250,7 @@ async function alterarPaciente(evento) {
 
   try {
     // Realiza a chamada da API com os parâmetros
-    const httpResponse = await fetch(`http://localhost:3000/paciente/atualizar/${id}?nome=${nome}&cpf=${cpf}&sexo=${sexo}&data_nascimento=${data_nascimento}`, {
+    const httpResponse = await fetch(`http://ec2-3-147-64-107.us-east-2.compute.amazonaws.com:3000/paciente/atualizar/${id}?nome=${nome}&cpf=${cpf}&sexo=${sexo}&data_nascimento=${data_nascimento}`, {
       method: "PUT", // Método PUT
       headers: { "Content-type": "application/x-www-form-urlencoded" },
     });

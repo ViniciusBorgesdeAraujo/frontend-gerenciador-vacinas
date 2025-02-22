@@ -35,7 +35,7 @@ async function realizarCadastroImunizacao(evento) {
 
   try {
     // Realiza a chamada da API
-    const httpResponse = await fetch("http://localhost:3000/imunizacao/inserir", {
+    const httpResponse = await fetch("http://ec2-3-147-64-107.us-east-2.compute.amazonaws.com:3000/imunizacao/inserir", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(imunizacao),
