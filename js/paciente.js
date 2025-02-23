@@ -70,6 +70,7 @@ async function realizarCadastro(evento) {
     }
     // Exibe mensagem de sucesso e recarrega a lista de pacientes
     alert("Cadastrado com sucesso");
+    window.location.href = "../paciente.html";
   } catch (error) {
     alert("Erro ao cadastrar: " + error.message);
   }

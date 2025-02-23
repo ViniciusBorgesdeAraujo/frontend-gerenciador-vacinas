@@ -72,7 +72,7 @@ export const imunizacaoModule = {
       this.atualizarTabela(imunizacoes); // Atualiza a tabela com os dados das imunizações
     } catch (error) {
       console.error("Erro ao carregar imunizações:", error);
-      utils.mostrarMensagem("Erro", error.message);
+      utils.mostrarMensagem("Erro:", error.message);
     }
   },
 

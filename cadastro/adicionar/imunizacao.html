@@ -38,16 +38,16 @@
                   <a class="nav-link" href="../../../index.html">Início</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="../../cadastro/vacina.html">Vacinas</a>
+                  <a class="nav-link" href="../vacina.html">Vacinas</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="../../cadastro/paciente.html">Cadastro</a>
+                  <a class="nav-link" href="../paciente.html">Cadastro</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="../../cadastro/imunizacoes.html">Imunizações</a>
+                  <a class="nav-link" href="../imunizacoes.html">Imunizações</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="../../cadastro/estatisticas.html">Estatísticas</a>
+                  <a class="nav-link" href="../estatisticas.html">Estatísticas</a>
                 </li>
               </ul>
             </div>
@@ -206,6 +206,7 @@
 
     // Exibe mensagem de sucesso
     alert("Imunização cadastrada com sucesso!");
+    window.location.href = "../imunizacoes.html";
   } catch (error) {
     alert("Erro ao cadastrar: " + error.message);
   }
